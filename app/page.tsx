@@ -339,23 +339,12 @@ export default function Home() {
             </div>
           </div>
 
-          <div className="rounded-[2rem] border border-white bg-white/82 p-4 shadow-panel md:p-5">
-            <div className="flex items-center gap-2 text-base font-black text-slate-800">
-              <span className="grid size-10 place-items-center rounded-full bg-peach text-coral">
-                <ClipboardCheck size={20} aria-hidden="true" />
-              </span>
-              오늘의 코칭 흐름
-            </div>
-            <div className="mt-4 grid gap-3">
-              {["글 유형 고르기", "초안 쓰기", "질문으로 고치기"].map((step, index) => (
-                <div key={step} className="flex items-center gap-3 rounded-3xl bg-white p-3 shadow-sm">
-                  <span className="grid size-9 shrink-0 place-items-center rounded-full bg-coral text-sm font-black text-white">
-                    {index + 1}
-                  </span>
-                  <span className="text-base font-black text-slate-800">{step}</span>
-                </div>
-              ))}
-            </div>
+          <div className="overflow-hidden rounded-[2rem] border border-white bg-white/82 p-3 shadow-panel">
+            <img
+              src="images/hero-writing-coach.png"
+              alt="글쓰기 코치를 표현한 귀여운 파스텔 일러스트"
+              className="aspect-square w-full rounded-[1.6rem] object-cover"
+            />
           </div>
         </div>
       </section>
