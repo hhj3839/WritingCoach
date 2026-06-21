@@ -35,42 +35,49 @@ const writingTypes: Array<{
   label: string;
   hint: string;
   starter: string;
+  accent: string;
 }> = [
   {
     id: "story",
     label: "이야기",
     hint: "겪은 일을 장면과 마음으로 써요.",
-    starter: "어느 날 있었던 일이나 오늘 가장 기억에 남는 일을 써 보세요."
+    starter: "어느 날 있었던 일이나 오늘 가장 기억에 남는 일을 써 보세요.",
+    accent: "bg-peach"
   },
   {
     id: "opinion",
     label: "주장하는 글",
     hint: "생각과 까닭을 또렷하게 연결해요.",
-    starter: "나는 ... 해야 한다고 생각한다. 왜냐하면..."
+    starter: "나는 ... 해야 한다고 생각한다. 왜냐하면...",
+    accent: "bg-butter"
   },
   {
     id: "explain",
     label: "설명하는 글",
     hint: "정보를 알기 쉽게 차근차근 알려 줘요.",
-    starter: "소개하거나 관찰하거나 안내할 내용을 한 문장으로 써 보세요."
+    starter: "소개하거나 관찰하거나 안내할 내용을 한 문장으로 써 보세요.",
+    accent: "bg-mint"
   },
   {
     id: "response",
     label: "감상문",
     hint: "기억에 남는 장면과 느낀 점을 써요.",
-    starter: "가장 기억에 남는 장면은... 그 까닭은..."
+    starter: "가장 기억에 남는 장면은... 그 까닭은...",
+    accent: "bg-lilac"
   },
   {
     id: "travel",
     label: "기행문",
     hint: "간 곳, 본 것, 느낀 점을 함께 담아요.",
-    starter: "처음 도착한 곳은... 그곳에서 본 것은..."
+    starter: "처음 도착한 곳은... 그곳에서 본 것은...",
+    accent: "bg-skywash"
   },
   {
     id: "letter",
     label: "편지",
     hint: "받는 사람에게 마음을 자연스럽게 전해요.",
-    starter: "받는 사람에게 첫인사를 하고, 전하고 싶은 말을 이어 써 보세요."
+    starter: "받는 사람에게 첫인사를 하고, 전하고 싶은 말을 이어 써 보세요.",
+    accent: "bg-[#ffeaf1]"
   }
 ];
 
@@ -125,10 +132,10 @@ function FeedbackList({ items }: { items: FeedbackItem[] }) {
   return (
     <div className="grid gap-3">
       {items.map((item) => (
-        <article key={item.title} className="rounded-md border border-slate-200 bg-white p-4 md:p-5">
+        <article key={item.title} className="rounded-3xl border border-[#e8eef6] bg-white p-4 shadow-sm md:p-5">
           <h3 className="text-base font-black leading-6 text-ink">{item.title}</h3>
           <p className="mt-2 text-sm leading-6 text-slate-700 md:text-base md:leading-7">{item.detail}</p>
-          <p className="mt-3 rounded-md bg-skywash px-3 py-2 text-sm font-bold leading-6 text-slate-800 md:text-base md:leading-7">
+          <p className="mt-3 rounded-2xl bg-skywash px-3 py-2 text-sm font-bold leading-6 text-slate-800 md:text-base md:leading-7">
             {item.example}
           </p>
         </article>
@@ -143,7 +150,7 @@ function QuestionList({ questions }: { questions: string[] }) {
       {questions.map((question) => (
         <div
           key={question}
-          className="flex gap-2 rounded-md bg-[#fff3df] p-3 text-sm font-black leading-6 text-slate-800 md:p-4 md:text-base md:leading-7"
+          className="flex gap-2 rounded-3xl bg-peach p-3 text-sm font-black leading-6 text-slate-800 shadow-sm md:p-4 md:text-base md:leading-7"
         >
           <ChevronRight className="mt-1 shrink-0 text-coral" size={16} aria-hidden="true" />
           <span>{question}</span>
@@ -277,8 +284,8 @@ export default function Home() {
   }
 
   return (
-    <main className="min-h-screen bg-[#f7f9fc] text-ink">
-      <header className="sticky top-0 z-20 border-b border-slate-200 bg-white/95 backdrop-blur">
+    <main className="min-h-screen bg-[#fff9f2] text-ink">
+      <header className="sticky top-0 z-20 border-b border-[#f1e6d8] bg-white/90 backdrop-blur">
         <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-4 py-3 sm:px-6 md:py-4">
           <div>
             <div className="flex items-center gap-2 text-sm font-black text-leaf">
@@ -290,7 +297,7 @@ export default function Home() {
           <button
             type="button"
             onClick={() => editorSectionRef.current?.scrollIntoView({ behavior: "smooth", block: "start" })}
-            className="inline-flex h-11 shrink-0 items-center justify-center gap-2 rounded-md bg-ink px-4 text-sm font-black text-white hover:bg-slate-700"
+            className="inline-flex h-11 shrink-0 items-center justify-center gap-2 rounded-full bg-ink px-5 text-sm font-black text-white shadow-soft hover:bg-slate-700"
           >
             <PenLine size={17} aria-hidden="true" />
             글쓰기
@@ -298,10 +305,10 @@ export default function Home() {
         </div>
       </header>
 
-      <section className="border-b border-slate-200 bg-white">
+      <section className="border-b border-[#f1e6d8] bg-[linear-gradient(135deg,#fff9f2_0%,#edf8f0_45%,#e7f6ff_100%)]">
         <div className="mx-auto grid max-w-6xl gap-6 px-4 py-8 sm:px-6 md:grid-cols-[1.05fr_0.95fr] md:items-center md:py-10">
           <div>
-            <p className="inline-flex items-center gap-2 rounded-md bg-[#edf8f0] px-3 py-2 text-sm font-black text-leaf">
+            <p className="inline-flex items-center gap-2 rounded-full bg-white px-4 py-2 text-sm font-black text-leaf shadow-sm">
               <Wand2 size={16} aria-hidden="true" />
               쓰고, 질문받고, 한 문장씩 고쳐요
             </p>
@@ -315,7 +322,7 @@ export default function Home() {
               <button
                 type="button"
                 onClick={() => editorSectionRef.current?.scrollIntoView({ behavior: "smooth", block: "start" })}
-                className="inline-flex h-14 items-center justify-center gap-2 rounded-md bg-leaf px-6 text-base font-black text-white hover:bg-emerald-700"
+                className="inline-flex h-14 items-center justify-center gap-2 rounded-full bg-leaf px-7 text-base font-black text-white shadow-soft hover:bg-emerald-600"
               >
                 지금 쓰기
                 <ArrowDown size={18} aria-hidden="true" />
@@ -324,7 +331,7 @@ export default function Home() {
                 <button
                   type="button"
                   onClick={restoreAutosavedWriting}
-                  className="inline-flex h-14 items-center justify-center rounded-md border border-slate-300 bg-white px-6 text-base font-black text-slate-800 hover:border-leaf"
+                  className="inline-flex h-14 items-center justify-center rounded-full border border-[#e8d9c7] bg-white px-7 text-base font-black text-slate-800 shadow-sm hover:border-leaf"
                 >
                   쓰던 글 이어서
                 </button>
@@ -332,15 +339,17 @@ export default function Home() {
             </div>
           </div>
 
-          <div className="rounded-md border border-slate-200 bg-[#fffaf1] p-4 shadow-panel md:p-5">
+          <div className="rounded-[2rem] border border-white bg-white/82 p-4 shadow-panel md:p-5">
             <div className="flex items-center gap-2 text-base font-black text-slate-800">
-              <ClipboardCheck size={20} className="text-coral" aria-hidden="true" />
+              <span className="grid size-10 place-items-center rounded-full bg-peach text-coral">
+                <ClipboardCheck size={20} aria-hidden="true" />
+              </span>
               오늘의 코칭 흐름
             </div>
             <div className="mt-4 grid gap-3">
               {["글 유형 고르기", "초안 쓰기", "질문으로 고치기"].map((step, index) => (
-                <div key={step} className="flex items-center gap-3 rounded-md bg-white p-3">
-                  <span className="grid size-9 shrink-0 place-items-center rounded-md bg-ink text-sm font-black text-white">
+                <div key={step} className="flex items-center gap-3 rounded-3xl bg-white p-3 shadow-sm">
+                  <span className="grid size-9 shrink-0 place-items-center rounded-full bg-coral text-sm font-black text-white">
                     {index + 1}
                   </span>
                   <span className="text-base font-black text-slate-800">{step}</span>
@@ -352,9 +361,11 @@ export default function Home() {
       </section>
 
       <div className="mx-auto grid max-w-6xl gap-5 px-4 py-5 sm:px-6 md:py-6">
-        <section ref={editorSectionRef} className="rounded-md border border-slate-200 bg-white p-4 md:p-5">
+        <section ref={editorSectionRef} className="rounded-[2rem] border border-[#eadfce] bg-white p-4 shadow-sm md:p-5">
           <div className="mb-3 flex items-center gap-2 text-base font-black text-slate-700">
-            <BookOpen size={20} className="text-leaf" aria-hidden="true" />
+            <span className="grid size-9 place-items-center rounded-full bg-mint text-leaf">
+              <BookOpen size={20} aria-hidden="true" />
+            </span>
             어떤 글을 쓸까요?
           </div>
           <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
@@ -371,10 +382,10 @@ export default function Home() {
                     setWritingHint("");
                     setShowMoreFeedback(false);
                   }}
-                  className={`min-h-24 rounded-md border px-4 py-3 text-left transition ${
+                  className={`min-h-24 rounded-3xl border px-4 py-3 text-left shadow-sm transition hover:-translate-y-0.5 ${
                     selected
-                      ? "border-leaf bg-[#edf8f0] text-ink ring-2 ring-leaf/20"
-                      : "border-slate-200 bg-white text-slate-700 hover:border-leaf"
+                      ? "border-leaf bg-mint text-ink ring-4 ring-leaf/15"
+                      : `border-transparent ${type.accent} text-slate-700 hover:border-leaf`
                   }`}
                 >
                   <span className="flex items-center justify-between gap-2 text-lg font-black">
@@ -388,20 +399,20 @@ export default function Home() {
           </div>
         </section>
 
-        <section className="rounded-md border border-slate-200 bg-white">
-          <div className="flex flex-col gap-3 border-b border-slate-200 p-4 sm:flex-row sm:items-start sm:justify-between md:p-5">
+        <section className="overflow-hidden rounded-[2rem] border border-[#eadfce] bg-white shadow-panel">
+          <div className="flex flex-col gap-3 border-b border-[#f1e6d8] bg-peach/60 p-4 sm:flex-row sm:items-start sm:justify-between md:p-5">
             <div>
               <div className="text-sm font-black text-leaf">1. 글쓰기</div>
               <h2 className="mt-1 text-2xl font-black text-ink">초안을 편하게 써요</h2>
               <p className="mt-1 text-base font-bold leading-7 text-slate-600">{selectedType.starter}</p>
             </div>
-            <div className="flex min-h-12 items-center gap-2 rounded-md bg-slate-100 px-3 py-2 text-base font-black text-slate-700">
+            <div className="flex min-h-12 items-center gap-2 rounded-full bg-white px-4 py-2 text-base font-black text-slate-700 shadow-sm">
               <FileText size={18} aria-hidden="true" />
               {wordCount} 낱말
             </div>
           </div>
 
-          <div className="border-b border-slate-200 bg-slate-50 px-4 py-3 md:px-5">
+          <div className="border-b border-[#f1e6d8] bg-[#fffdf8] px-4 py-3 md:px-5">
             <div className="flex flex-wrap items-center gap-2 md:gap-3">
               <span className="flex min-h-12 items-center gap-1 text-base font-black text-slate-700">
                 <Lightbulb size={18} className="text-coral" aria-hidden="true" />
@@ -410,27 +421,27 @@ export default function Home() {
               <button
                 type="button"
                 onClick={() => setWritingHint(writingHelpers[writingType].start)}
-                className="h-12 rounded-md border border-slate-300 bg-white px-4 text-base font-black text-slate-700 hover:border-leaf"
+                className="h-12 rounded-full border border-[#e8d9c7] bg-white px-5 text-base font-black text-slate-700 shadow-sm hover:border-leaf"
               >
                 시작
               </button>
               <button
                 type="button"
                 onClick={() => setWritingHint(writingHelpers[writingType].reason)}
-                className="h-12 rounded-md border border-slate-300 bg-white px-4 text-base font-black text-slate-700 hover:border-leaf"
+                className="h-12 rounded-full border border-[#e8d9c7] bg-white px-5 text-base font-black text-slate-700 shadow-sm hover:border-leaf"
               >
                 까닭
               </button>
               <button
                 type="button"
                 onClick={() => setWritingHint(writingHelpers[writingType].finish)}
-                className="h-12 rounded-md border border-slate-300 bg-white px-4 text-base font-black text-slate-700 hover:border-leaf"
+                className="h-12 rounded-full border border-[#e8d9c7] bg-white px-5 text-base font-black text-slate-700 shadow-sm hover:border-leaf"
               >
                 마무리
               </button>
             </div>
             {writingHint ? (
-              <p className="mt-3 rounded-md bg-white px-4 py-3 text-lg font-black leading-8 text-ink">
+              <p className="mt-3 rounded-3xl bg-butter px-4 py-3 text-lg font-black leading-8 text-ink shadow-sm">
                 {writingHint}
               </p>
             ) : null}
@@ -441,17 +452,17 @@ export default function Home() {
             onChange={(event) => {
               setText(event.target.value);
             }}
-            className="min-h-[360px] w-full border-0 bg-white p-5 text-xl leading-10 text-ink outline-none md:min-h-[460px] md:p-6 md:text-[22px] md:leading-[2.7rem]"
+            className="min-h-[360px] w-full border-0 bg-white p-5 text-xl leading-10 text-ink outline-none placeholder:text-slate-400 md:min-h-[460px] md:p-6 md:text-[22px] md:leading-[2.7rem]"
             placeholder={feedback ? "도움을 보고 이 글을 바로 고쳐 보세요." : "여기에 글을 써 보세요."}
           />
 
-          <div className="flex flex-col gap-3 border-t border-slate-200 p-4 sm:flex-row sm:items-center sm:justify-between md:p-5">
+          <div className="flex flex-col gap-3 border-t border-[#f1e6d8] bg-[#fffdf8] p-4 sm:flex-row sm:items-center sm:justify-between md:p-5">
             <p className="min-h-6 text-base font-black text-coral">{message}</p>
             <div className="grid grid-cols-2 gap-2 sm:flex md:gap-3">
               <button
                 type="button"
                 onClick={resetWriting}
-                className="inline-flex h-14 items-center justify-center gap-2 rounded-md border border-slate-300 bg-white px-5 text-base font-black text-slate-700 hover:bg-slate-50"
+                className="inline-flex h-14 items-center justify-center gap-2 rounded-full border border-[#e8d9c7] bg-white px-6 text-base font-black text-slate-700 shadow-sm hover:bg-peach"
               >
                 <RotateCcw size={18} aria-hidden="true" />
                 처음부터
@@ -460,7 +471,7 @@ export default function Home() {
                 type="button"
                 onClick={checkWriting}
                 disabled={isChecking}
-                className="inline-flex h-14 items-center justify-center gap-2 rounded-md bg-leaf px-6 text-base font-black text-white hover:bg-emerald-700 disabled:cursor-not-allowed disabled:bg-slate-400"
+                className="inline-flex h-14 items-center justify-center gap-2 rounded-full bg-leaf px-7 text-base font-black text-white shadow-soft hover:bg-emerald-600 disabled:cursor-not-allowed disabled:bg-slate-400"
               >
                 <PenLine size={18} aria-hidden="true" />
                 {isChecking ? "보고 있어요" : feedback ? "다시 코칭" : "코칭 받기"}
@@ -472,25 +483,27 @@ export default function Home() {
         {feedback ? (
           <section
             ref={coachingSectionRef}
-            className={`rounded-md border bg-white p-4 transition md:p-5 ${
-              coachingFlash ? "border-leaf shadow-[0_0_0_4px_rgba(47,143,91,0.18)]" : "border-slate-200"
+            className={`rounded-[2rem] border bg-white p-4 transition md:p-5 ${
+              coachingFlash ? "border-leaf shadow-[0_0_0_5px_rgba(66,166,111,0.18)]" : "border-[#eadfce] shadow-sm"
             }`}
           >
             <div className="mb-4 flex items-center justify-between gap-3">
               <div className="flex items-center gap-2">
-                <ClipboardCheck size={22} className="text-leaf" aria-hidden="true" />
+                <span className="grid size-11 place-items-center rounded-full bg-mint text-leaf">
+                  <ClipboardCheck size={22} aria-hidden="true" />
+                </span>
                 <div>
                   <div className="text-sm font-black text-leaf">2. 코칭 결과</div>
                   <h2 className="text-2xl font-black text-ink">하나씩 고쳐요</h2>
                 </div>
               </div>
               {coachingFlash ? (
-                <span className="rounded-md bg-[#edf8f0] px-3 py-2 text-sm font-black text-leaf">새 코칭</span>
+                <span className="rounded-full bg-mint px-4 py-2 text-sm font-black text-leaf">새 코칭</span>
               ) : null}
             </div>
 
             <div className="grid gap-4">
-              <p className="rounded-md bg-slate-50 p-4 text-base font-bold leading-7 text-slate-700">
+              <p className="rounded-3xl bg-lilac p-4 text-base font-bold leading-7 text-slate-700">
                 {feedback.summary}
               </p>
               <div>
@@ -510,7 +523,7 @@ export default function Home() {
               <button
                 type="button"
                 onClick={() => setShowMoreFeedback((current) => !current)}
-                className="inline-flex h-14 items-center justify-center gap-2 rounded-md border border-slate-300 bg-white px-4 text-base font-black text-slate-700 hover:border-leaf"
+                className="inline-flex h-14 items-center justify-center gap-2 rounded-full border border-[#e8d9c7] bg-white px-5 text-base font-black text-slate-700 shadow-sm hover:border-leaf"
               >
                 <ChevronDown
                   size={18}

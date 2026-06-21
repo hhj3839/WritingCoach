@@ -6,12 +6,17 @@ const config: Config = {
     extend: {
       colors: {
         ink: "#17212b",
-        skywash: "#eaf7ff",
-        leaf: "#2f8f5b",
-        coral: "#f56f58"
+        skywash: "#e7f6ff",
+        leaf: "#42a66f",
+        coral: "#ff7f73",
+        peach: "#fff0df",
+        mint: "#e9f9ef",
+        butter: "#fff7c8",
+        lilac: "#f2ecff"
       },
       boxShadow: {
-        panel: "0 18px 60px rgba(23, 33, 43, 0.12)"
+        panel: "0 20px 50px rgba(60, 72, 88, 0.13)",
+        soft: "0 12px 28px rgba(66, 166, 111, 0.16)"
       }
     }
   },
