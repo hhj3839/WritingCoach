@@ -1,16 +1,18 @@
 "use client";
 
 import {
+  ArrowDown,
   BookOpen,
-  ChevronDown,
   CheckCircle2,
+  ChevronDown,
   ChevronRight,
   ClipboardCheck,
   FileText,
   Lightbulb,
   PenLine,
   RotateCcw,
-  Sparkles
+  Sparkles,
+  Wand2
 } from "lucide-react";
 import { useEffect, useMemo, useRef, useState } from "react";
 import {
@@ -35,55 +37,46 @@ const writingTypes: Array<{
   starter: string;
 }> = [
   {
-    id: "explain",
-    label: "설명하는 글",
-    hint: "정보를 알기 쉽게 알려 줘요.",
-    starter: "소개하거나 관찰하거나 안내할 내용을 한 문장으로 써 보세요."
+    id: "story",
+    label: "이야기",
+    hint: "겪은 일을 장면과 마음으로 써요.",
+    starter: "어느 날 있었던 일이나 오늘 가장 기억에 남는 일을 써 보세요."
   },
   {
     id: "opinion",
     label: "주장하는 글",
-    hint: "생각과 까닭을 연결해요.",
+    hint: "생각과 까닭을 또렷하게 연결해요.",
     starter: "나는 ... 해야 한다고 생각한다. 왜냐하면..."
   },
   {
-    id: "story",
-    label: "이야기",
-    hint: "겪은 일을 장면으로 보여 줘요.",
-    starter: "어느 날 있었던 일이나 오늘 가장 기억에 남는 일을 써 보세요."
+    id: "explain",
+    label: "설명하는 글",
+    hint: "정보를 알기 쉽게 차근차근 알려 줘요.",
+    starter: "소개하거나 관찰하거나 안내할 내용을 한 문장으로 써 보세요."
   },
   {
     id: "response",
     label: "감상문",
-    hint: "느낀 점과 이유를 써요.",
+    hint: "기억에 남는 장면과 느낀 점을 써요.",
     starter: "가장 기억에 남는 장면은... 그 까닭은..."
   },
   {
     id: "travel",
     label: "기행문",
-    hint: "간 곳, 본 것, 느낀 점을 담아요.",
+    hint: "간 곳, 본 것, 느낀 점을 함께 담아요.",
     starter: "처음 도착한 곳은... 그곳에서 본 것은..."
   },
   {
     id: "letter",
     label: "편지",
-    hint: "받는 사람에게 마음을 전해요.",
+    hint: "받는 사람에게 마음을 자연스럽게 전해요.",
     starter: "받는 사람에게 첫인사를 하고, 전하고 싶은 말을 이어 써 보세요."
   }
 ];
 
-const primaryWritingTypeIds: WritingType[] = ["story", "opinion", "explain"];
-
 const autosaveKey = "writing-coach-autosave";
 
-const writingHelpers: Record<
-  WritingType,
-  {
-    start: string;
-    reason: string;
-    finish: string;
-  }
-> = {
+const writingHelpers: Record<WritingType, { start: string; reason: string; finish: string }> = {
   explain: {
     start: "제가 소개할 것은 ...입니다.",
     reason: "이것을 설명하려는 까닭은 ...이기 때문입니다.",
@@ -128,17 +121,12 @@ function loadAutosavedWriting(): AutosavedWriting | null {
   }
 }
 
-function FeedbackList({ items, tone = "default" }: { items: FeedbackItem[]; tone?: "default" | "leaf" }) {
+function FeedbackList({ items }: { items: FeedbackItem[] }) {
   return (
     <div className="grid gap-3">
       {items.map((item) => (
-        <article
-          key={item.title}
-          className={`rounded-md border bg-white p-4 md:p-5 ${
-            tone === "leaf" ? "border-leaf/25" : "border-slate-200"
-          }`}
-        >
-          <h3 className="text-[15px] font-black leading-6 text-ink md:text-base">{item.title}</h3>
+        <article key={item.title} className="rounded-md border border-slate-200 bg-white p-4 md:p-5">
+          <h3 className="text-base font-black leading-6 text-ink">{item.title}</h3>
           <p className="mt-2 text-sm leading-6 text-slate-700 md:text-base md:leading-7">{item.detail}</p>
           <p className="mt-3 rounded-md bg-skywash px-3 py-2 text-sm font-bold leading-6 text-slate-800 md:text-base md:leading-7">
             {item.example}
@@ -162,26 +150,6 @@ function QuestionList({ questions }: { questions: string[] }) {
         </div>
       ))}
     </div>
-  );
-}
-
-function EmptyPanel({
-  title,
-  children,
-  icon
-}: {
-  title: string;
-  children: React.ReactNode;
-  icon: React.ReactNode;
-}) {
-  return (
-    <section className="grid min-h-[220px] place-items-center rounded-md border border-dashed border-slate-300 bg-slate-50 p-6 text-center md:min-h-[260px] md:p-8">
-      <div>
-        <div className="mx-auto grid size-12 place-items-center rounded-md bg-white text-leaf shadow-sm">{icon}</div>
-        <h3 className="mt-4 text-lg font-black text-ink">{title}</h3>
-        <p className="mt-2 text-sm leading-6 text-slate-600">{children}</p>
-      </div>
-    </section>
   );
 }
 
@@ -216,6 +184,7 @@ export default function Home() {
   const [showMoreFeedback, setShowMoreFeedback] = useState(false);
   const [coachingFlash, setCoachingFlash] = useState(false);
   const [hasAutosavedWriting, setHasAutosavedWriting] = useState(false);
+  const editorSectionRef = useRef<HTMLElement | null>(null);
   const coachingSectionRef = useRef<HTMLElement | null>(null);
 
   const selectedType = useMemo(
@@ -289,6 +258,7 @@ export default function Home() {
     setWritingHint("");
     setShowMoreFeedback(false);
     setMessage("쓰던 글을 불러왔어요.");
+    window.setTimeout(() => editorSectionRef.current?.scrollIntoView({ behavior: "smooth", block: "start" }), 50);
   }
 
   function resetWriting() {
@@ -307,41 +277,88 @@ export default function Home() {
   }
 
   return (
-    <main className="min-h-screen bg-[#f6f8fb] text-ink">
+    <main className="min-h-screen bg-[#f7f9fc] text-ink">
       <header className="sticky top-0 z-20 border-b border-slate-200 bg-white/95 backdrop-blur">
-        <div className="mx-auto max-w-5xl px-4 py-3 sm:px-6 md:py-4">
+        <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-4 py-3 sm:px-6 md:py-4">
           <div>
             <div className="flex items-center gap-2 text-sm font-black text-leaf">
               <Sparkles size={18} aria-hidden="true" />
-              글을 더 쉽게 고쳐요
+              AI 글코치
             </div>
-            <h1 className="mt-1 text-2xl font-black tracking-normal text-ink sm:text-3xl">AI 글코치</h1>
+            <h1 className="mt-1 text-xl font-black tracking-normal text-ink sm:text-2xl">초등 글쓰기 코칭 홈</h1>
           </div>
+          <button
+            type="button"
+            onClick={() => editorSectionRef.current?.scrollIntoView({ behavior: "smooth", block: "start" })}
+            className="inline-flex h-11 shrink-0 items-center justify-center gap-2 rounded-md bg-ink px-4 text-sm font-black text-white hover:bg-slate-700"
+          >
+            <PenLine size={17} aria-hidden="true" />
+            글쓰기
+          </button>
         </div>
       </header>
 
-      <div className="mx-auto grid max-w-5xl gap-5 px-4 py-4 sm:px-6 md:py-5">
-        {hasAutosavedWriting && !text.trim() && !revisedText.trim() ? (
-          <section className="flex flex-col gap-3 rounded-md border border-leaf/30 bg-[#edf8f0] p-4 sm:flex-row sm:items-center sm:justify-between">
-            <p className="text-base font-black text-ink">쓰던 글이 있어요.</p>
-            <button
-              type="button"
-              onClick={restoreAutosavedWriting}
-              className="inline-flex h-12 items-center justify-center rounded-md bg-leaf px-5 text-base font-black text-white hover:bg-emerald-700"
-            >
-              이어서 쓰기
-            </button>
-          </section>
-        ) : null}
+      <section className="border-b border-slate-200 bg-white">
+        <div className="mx-auto grid max-w-6xl gap-6 px-4 py-8 sm:px-6 md:grid-cols-[1.05fr_0.95fr] md:items-center md:py-10">
+          <div>
+            <p className="inline-flex items-center gap-2 rounded-md bg-[#edf8f0] px-3 py-2 text-sm font-black text-leaf">
+              <Wand2 size={16} aria-hidden="true" />
+              쓰고, 질문받고, 한 문장씩 고쳐요
+            </p>
+            <h2 className="mt-4 max-w-2xl text-4xl font-black leading-tight tracking-normal text-ink md:text-5xl">
+              글쓰기가 막힐 때 바로 옆에서 도와주는 AI 글코치
+            </h2>
+            <p className="mt-4 max-w-xl text-base font-bold leading-8 text-slate-600 md:text-lg">
+              이야기, 주장하는 글, 설명하는 글을 고르고 초안을 쓰면 목적에 맞는 질문과 고칠 점을 보여줍니다.
+            </p>
+            <div className="mt-6 flex flex-col gap-3 sm:flex-row">
+              <button
+                type="button"
+                onClick={() => editorSectionRef.current?.scrollIntoView({ behavior: "smooth", block: "start" })}
+                className="inline-flex h-14 items-center justify-center gap-2 rounded-md bg-leaf px-6 text-base font-black text-white hover:bg-emerald-700"
+              >
+                지금 쓰기
+                <ArrowDown size={18} aria-hidden="true" />
+              </button>
+              {hasAutosavedWriting ? (
+                <button
+                  type="button"
+                  onClick={restoreAutosavedWriting}
+                  className="inline-flex h-14 items-center justify-center rounded-md border border-slate-300 bg-white px-6 text-base font-black text-slate-800 hover:border-leaf"
+                >
+                  쓰던 글 이어서
+                </button>
+              ) : null}
+            </div>
+          </div>
 
-        <section className="rounded-md border border-slate-200 bg-white p-4 md:p-5">
+          <div className="rounded-md border border-slate-200 bg-[#fffaf1] p-4 shadow-panel md:p-5">
+            <div className="flex items-center gap-2 text-base font-black text-slate-800">
+              <ClipboardCheck size={20} className="text-coral" aria-hidden="true" />
+              오늘의 코칭 흐름
+            </div>
+            <div className="mt-4 grid gap-3">
+              {["글 유형 고르기", "초안 쓰기", "질문으로 고치기"].map((step, index) => (
+                <div key={step} className="flex items-center gap-3 rounded-md bg-white p-3">
+                  <span className="grid size-9 shrink-0 place-items-center rounded-md bg-ink text-sm font-black text-white">
+                    {index + 1}
+                  </span>
+                  <span className="text-base font-black text-slate-800">{step}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <div className="mx-auto grid max-w-6xl gap-5 px-4 py-5 sm:px-6 md:py-6">
+        <section ref={editorSectionRef} className="rounded-md border border-slate-200 bg-white p-4 md:p-5">
           <div className="mb-3 flex items-center gap-2 text-base font-black text-slate-700">
             <BookOpen size={20} className="text-leaf" aria-hidden="true" />
             어떤 글을 쓸까요?
           </div>
-          <div className="grid gap-3 md:grid-cols-3">
-            {primaryWritingTypeIds.map((typeId) => {
-              const type = writingTypes.find((item) => item.id === typeId) ?? writingTypes[0];
+          <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+            {writingTypes.map((type) => {
               const selected = type.id === writingType;
 
               return (
@@ -375,7 +392,7 @@ export default function Home() {
           <div className="flex flex-col gap-3 border-b border-slate-200 p-4 sm:flex-row sm:items-start sm:justify-between md:p-5">
             <div>
               <div className="text-sm font-black text-leaf">1. 글쓰기</div>
-              <h2 className="mt-1 text-2xl font-black text-ink">처음 글을 써요</h2>
+              <h2 className="mt-1 text-2xl font-black text-ink">초안을 편하게 써요</h2>
               <p className="mt-1 text-base font-bold leading-7 text-slate-600">{selectedType.starter}</p>
             </div>
             <div className="flex min-h-12 items-center gap-2 rounded-md bg-slate-100 px-3 py-2 text-base font-black text-slate-700">
@@ -388,28 +405,28 @@ export default function Home() {
             <div className="flex flex-wrap items-center gap-2 md:gap-3">
               <span className="flex min-h-12 items-center gap-1 text-base font-black text-slate-700">
                 <Lightbulb size={18} className="text-coral" aria-hidden="true" />
-                도움받기
+                도움 문장
               </span>
               <button
                 type="button"
                 onClick={() => setWritingHint(writingHelpers[writingType].start)}
                 className="h-12 rounded-md border border-slate-300 bg-white px-4 text-base font-black text-slate-700 hover:border-leaf"
               >
-                첫 문장 보기
+                시작
               </button>
               <button
                 type="button"
                 onClick={() => setWritingHint(writingHelpers[writingType].reason)}
                 className="h-12 rounded-md border border-slate-300 bg-white px-4 text-base font-black text-slate-700 hover:border-leaf"
               >
-                까닭 문장 보기
+                까닭
               </button>
               <button
                 type="button"
                 onClick={() => setWritingHint(writingHelpers[writingType].finish)}
                 className="h-12 rounded-md border border-slate-300 bg-white px-4 text-base font-black text-slate-700 hover:border-leaf"
               >
-                마무리 보기
+                마무리
               </button>
             </div>
             {writingHint ? (
@@ -424,7 +441,7 @@ export default function Home() {
             onChange={(event) => {
               setText(event.target.value);
             }}
-            className="min-h-[390px] w-full border-0 bg-white p-5 text-xl leading-10 text-ink outline-none md:min-h-[480px] md:p-6 md:text-[22px] md:leading-[2.7rem]"
+            className="min-h-[360px] w-full border-0 bg-white p-5 text-xl leading-10 text-ink outline-none md:min-h-[460px] md:p-6 md:text-[22px] md:leading-[2.7rem]"
             placeholder={feedback ? "도움을 보고 이 글을 바로 고쳐 보세요." : "여기에 글을 써 보세요."}
           />
 
@@ -446,7 +463,7 @@ export default function Home() {
                 className="inline-flex h-14 items-center justify-center gap-2 rounded-md bg-leaf px-6 text-base font-black text-white hover:bg-emerald-700 disabled:cursor-not-allowed disabled:bg-slate-400"
               >
                 <PenLine size={18} aria-hidden="true" />
-                {isChecking ? "보고 있어요" : feedback ? "다시 도움 받기" : "도움 받기"}
+                {isChecking ? "보고 있어요" : feedback ? "다시 코칭" : "코칭 받기"}
               </button>
             </div>
           </div>
@@ -463,12 +480,12 @@ export default function Home() {
               <div className="flex items-center gap-2">
                 <ClipboardCheck size={22} className="text-leaf" aria-hidden="true" />
                 <div>
-                  <div className="text-sm font-black text-leaf">2. 도움받기</div>
+                  <div className="text-sm font-black text-leaf">2. 코칭 결과</div>
                   <h2 className="text-2xl font-black text-ink">하나씩 고쳐요</h2>
                 </div>
               </div>
               {coachingFlash ? (
-                <span className="rounded-md bg-[#edf8f0] px-3 py-2 text-sm font-black text-leaf">새 도움</span>
+                <span className="rounded-md bg-[#edf8f0] px-3 py-2 text-sm font-black text-leaf">새 코칭</span>
               ) : null}
             </div>
 
