@@ -11,7 +11,6 @@ import {
   Lightbulb,
   PenLine,
   RotateCcw,
-  Sparkles,
   Wand2
 } from "lucide-react";
 import { useEffect, useMemo, useRef, useState } from "react";
@@ -285,26 +284,6 @@ export default function Home() {
 
   return (
     <main className="min-h-screen bg-[#fff9f2] text-ink">
-      <header className="sticky top-0 z-20 border-b border-[#f1e6d8] bg-white/90 backdrop-blur">
-        <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-4 py-3 sm:px-6 md:py-4">
-          <div>
-            <div className="flex items-center gap-2 text-sm font-black text-leaf">
-              <Sparkles size={18} aria-hidden="true" />
-              AI 글코치
-            </div>
-            <h1 className="mt-1 text-xl font-black tracking-normal text-ink sm:text-2xl">초등 글쓰기 코칭 홈</h1>
-          </div>
-          <button
-            type="button"
-            onClick={() => editorSectionRef.current?.scrollIntoView({ behavior: "smooth", block: "start" })}
-            className="inline-flex h-11 shrink-0 items-center justify-center gap-2 rounded-full bg-ink px-5 text-sm font-black text-white shadow-soft hover:bg-slate-700"
-          >
-            <PenLine size={17} aria-hidden="true" />
-            글쓰기
-          </button>
-        </div>
-      </header>
-
       <section className="border-b border-[#f1e6d8] bg-[linear-gradient(135deg,#fff9f2_0%,#edf8f0_45%,#e7f6ff_100%)]">
         <div className="mx-auto grid max-w-6xl gap-6 px-4 py-8 sm:px-6 md:grid-cols-[1.05fr_0.95fr] md:items-center md:py-10">
           <div>
